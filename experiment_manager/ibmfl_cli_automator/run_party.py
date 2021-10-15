@@ -17,7 +17,8 @@ if fl_path not in sys.path:
     sys.path.append(fl_path)
 
 from ibmfl.party.status_type import StatusType
-from ibmfl.party.party import Party
+# from ibmfl.party.party import Party
+from wouter.party_FA import Party_FA
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2 or len(sys.argv) > 2:
         logging.error('Please provide yaml configuration')
     config_file = sys.argv[1]
-    p = Party(config_file=config_file)
+    p = Party_FA(config_file=config_file)
 
     # Loop over commands passed by runner
     for msg in sys.stdin:
@@ -45,8 +46,8 @@ if __name__ == '__main__':
         if re.match('REGISTER', msg):
             p.register_party()
 
-        if re.match('EVAL', msg):
-            p.evaluate_model()
+        # if re.match('EVAL', msg):
+        #     p.evaluate_model()
 
     # Stop only when aggregator tells us;
     # in the future, dynamically deciding commands can be supported.

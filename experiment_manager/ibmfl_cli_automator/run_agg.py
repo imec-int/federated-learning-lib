@@ -16,9 +16,9 @@ fl_path = os.path.abspath('.')
 if fl_path not in sys.path:
     sys.path.append(fl_path)
 
-from ibmfl.aggregator.states import States
-from ibmfl.aggregator.aggregator import Aggregator
-from ibmfl.util.config import get_config_from_file
+from wouter.states_FA import States
+from wouter.aggregator_FA import Aggregator
+from wouter.config_FA import get_config_from_file
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,13 @@ if __name__ == '__main__':
             logging.info("State: " + str(agg.proto_handler.state))
             agg.stop()
             break
-
+        elif re.match('EXEC',msg):
+            agg.proto_handler.state = States.EXEC
+            logging.info("State: " + str(agg.proto_handler.state))
+            success = agg.start_execution()
+            if not success:
+                agg.stop()
+                break
         elif re.match('TRAIN', msg):
             agg.proto_handler.state = States.TRAIN
             logging.info("State: " + str(agg.proto_handler.state))
