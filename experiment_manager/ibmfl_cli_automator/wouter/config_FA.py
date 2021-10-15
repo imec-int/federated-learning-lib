@@ -179,7 +179,8 @@ def get_cls_by_config(config_dict):
     cls_config['data'] = get_data_from_config(config_dict.get('data'))
     cls_config['metrics_recorder'] = get_mrec_from_config(config_dict.get('metrics_recorder'))
     cls_config['model'] = get_model_from_config(config_dict.get('model'))
-    cls_config['script'] = get_FA_script_from_config(config_dict.get('fusion'))
+    #TODO ADDED FOR FA
+    cls_config['script'] = get_FA_script_from_config(config_dict.get('script'))
 
     cls_config['fusion'] = get_fusion_from_config(config_dict.get('fusion'))
     cls_config['connection'] = get_connection_from_config(
@@ -310,7 +311,7 @@ def get_FA_script_from_config(config):
                 'Error occurred while loading fusion config.')
 
     else:
-        logger.debug('No fusion config provided for this setup.')
+        logger.debug('No FA script config provided for this setup.')
 
     return FA_script_config
 

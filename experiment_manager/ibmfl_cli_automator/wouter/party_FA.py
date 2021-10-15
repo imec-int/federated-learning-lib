@@ -31,7 +31,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-class Party_FA:
+class Party:
     """
     Application that runs FL at the party side. Given a config file, it
     spins a server, creates FLModel of the type that will be trained,

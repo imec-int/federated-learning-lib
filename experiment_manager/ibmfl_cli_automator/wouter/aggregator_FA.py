@@ -12,7 +12,6 @@ to execute controlled Federated Learning tasks
 """
 
 
-from wouter.states_FA import States
 import re
 import os
 import sys
@@ -22,6 +21,7 @@ if fl_path not in sys.path:
     sys.path.append(fl_path)
 
 # from ibmfl.aggregator.states import States
+from wouter.states_FA import States
 from wouter.config_FA import configure_logging_from_file, \
     get_aggregator_config
 from ibmfl.connection.route_declarations import get_aggregator_router
@@ -186,7 +186,8 @@ class Aggregator(object):
         """
         logger.info('Initiating Global FA execution.')
         try:
-            self.py_script.execute_script()
+            self.py_script.start_global_training()
+            # execute_script()
         except Exception as ex:
             logger.exception('Exception occurred while executing.')
             logger.exception(ex)
@@ -280,8 +281,10 @@ if __name__ == '__main__':
     # Indefinite loop to accept user commands to execute
     while 1:
         msg = sys.stdin.readline()
+        logging.info(msg)
         # TODO: move it to Aggregator
         if re.match('START', msg):
+            
             agg.proto_handler.state = States.CLI_WAIT
             logging.info("State: " + str(agg.proto_handler.state))
             # Start server

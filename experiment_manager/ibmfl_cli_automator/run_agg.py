@@ -16,6 +16,12 @@ fl_path = os.path.abspath('.')
 if fl_path not in sys.path:
     sys.path.append(fl_path)
 
+
+
+# from ibmfl.aggregator.states import States
+# from ibmfl.aggregator.aggregator import Aggregator
+# from ibmfl.util.config import get_config_from_file
+
 from wouter.states_FA import States
 from wouter.aggregator_FA import Aggregator
 from wouter.config_FA import get_config_from_file
@@ -43,7 +49,7 @@ if __name__ == '__main__':
     agg = Aggregator(config_file=config_file)
     for line in sys.stdin:
         msg = line.strip().upper()
-
+        logging.info(msg)
         if re.match('START', msg):
             agg.proto_handler.state = States.CLI_WAIT
             logging.info("State: " + str(agg.proto_handler.state))
@@ -66,6 +72,8 @@ if __name__ == '__main__':
             if not success:
                 agg.stop()
                 break
+        elif re.match('TEST',msg):
+            logging.info("test")
         elif re.match('TRAIN', msg):
             agg.proto_handler.state = States.TRAIN
             logging.info("State: " + str(agg.proto_handler.state))
