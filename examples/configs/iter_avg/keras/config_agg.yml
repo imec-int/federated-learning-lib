@@ -1,0 +1,33 @@
+connection:
+  info:
+    ip: 127.0.0.1
+    port: 5000
+    tls_config:
+      enable: false
+  name: FlaskConnection
+  path: ibmfl.connection.flask_connection
+  sync: false
+data:
+  info:
+    npz_file: examples/datasets/mnist.npz
+  name: MnistKerasDataHandler
+  path: ibmfl.util.data_handlers.mnist_keras_data_handler
+# fusion:
+#   name: IterAvgFusionHandler
+#   path: ibmfl.aggregator.fusion.iter_avg_fusion_handler
+script:
+  name: HelloWorld
+  path: experiment_manager.ibmfl_cli_automator.wouter.HelloWorld
+hyperparams:
+  global:
+    max_timeout: 60
+    num_parties: 1
+    rounds: 3
+    termination_accuracy: 0.9
+  local:
+    training:
+      epochs: 3
+protocol_handler:
+  name: ProtoHandler
+  path: experiment_manager.ibmfl_cli_automator.wouter.protohandler.proto_handler
+  # path: ibmfl.aggregator.protohandler.proto_handler

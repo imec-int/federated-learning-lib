@@ -83,6 +83,8 @@ class PartyProtocolHandler(abc.ABC):
             return self.local_training_handler.eval_model
         elif message_type == MessageType.TRAIN.value:
             return self.local_training_handler.train
+        elif message_type == MessageType.TEST.value:
+            logger.info("test")
         else:
             raise LocalTrainingException("Unsupported message type!")
 
@@ -101,7 +103,6 @@ class PartyProtocolHandler(abc.ABC):
         message_type = msg.message_type
         logger.info("Received request in with message_type:  " +
                     str(message_type))
-
         data = msg.get_data()
 
         response_msg = ResponseMessage(req_msg=msg)
@@ -122,7 +123,8 @@ class PartyProtocolHandler(abc.ABC):
                                                data={'ACK': True})
                 logger.info("received a STOP request")
                 return response_msg
-        
+            elif message_type is MessageType.TEST.value:
+                logger.info("het was een test")
             self.wait_for_model_initialization()
             handler = self.get_handle(message_type)
 
@@ -135,6 +137,8 @@ class PartyProtocolHandler(abc.ABC):
                     response_data['metrics'] = metrics
             elif message_type is MessageType.EVAL_MODEL.value:
                 self.local_training_handler.n_completed_evals += 1
+            elif message_type is MessageType.TEST.value:
+                logger.info(response)
 
         except Exception as ex:
             logger.exception(ex)

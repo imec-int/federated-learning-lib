@@ -29,6 +29,44 @@ class HelloWorld(FusionHandler):
     def start_global_training(self):
         self.execute_script()
 
+        """
+        Starts an iterative global federated learning training process.
+        """
+        # self.curr_round = 0
+
+        # # log to Evidentia
+        # if self.evidencia:
+        #     self.evidencia.add_claim("sent_global_model",
+        #                             "{}, '\"{}\"'".format(self.curr_round + 1,
+        #                             hash_model_update(model_update)))
+
+        payload = {'hyperparams': {'local': self.params_local},
+                   'test': "test-message"
+                   }
+        #     logger.info('Model update' + str(model_update))
+
+        # query all available parties
+        lst_replies = self.query_all_parties(payload)
+        logging.info(lst_replies)
+        # # log to Evidentia
+        # if self.evidencia:
+        #     updates_hashes = []
+        #     for update in lst_replies:
+        #         updates_hashes.append(hash_model_update(update))
+        #         self.evidencia.add_claim("received_model_update_hashes",
+        #                                 "{}, '{}'".format(self.curr_round + 1,
+        #                                 str(updates_hashes).replace('\'', '"')))
+
+        # self.update_weights(lst_replies)
+
+        # # Update model if we are maintaining one
+        # if self.fl_model is not None:
+        #     self.fl_model.update_model(
+        #         ModelUpdate(weights=self.current_model_weights))
+
+        # self.curr_round += 1
+        # self.save_current_state()
+
     def get_global_model(self):
         logging.info("I don't want a model, I just need a friend")
 
