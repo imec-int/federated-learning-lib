@@ -1,0 +1,1 @@
+# TODO maybe provide authentication mechanism (so the party can check access to data resources for the script)
