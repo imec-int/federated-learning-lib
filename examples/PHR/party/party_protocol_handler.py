@@ -63,8 +63,8 @@ class PartyProtocolHandler(abc.ABC):
         self.pool = ThreadPool(processes=1)
         self.local_training_handler = local_training_handler
         self.metrics_recorder = metrics_recorder
-        if ( self.local_training_handler is not None ):
-            self.local_training_handler.set_metrics_recorder_obj(self.metrics_recorder)
+        # if ( self.local_training_handler is not None ):
+        #     self.local_training_handler.set_metrics_recorder_obj(self.metrics_recorder)
         self.is_private = is_private
 
     def get_handle(self, message_type):

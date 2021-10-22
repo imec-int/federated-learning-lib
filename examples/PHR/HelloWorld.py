@@ -1,74 +1,42 @@
 #!/usr/bin/env python3
+import abc
+import os
+from pathlib import Path
 import logging
-from ibmfl.aggregator.fusion.fusion_handler import FusionHandler
+
 
 logger = logging.getLogger(__name__)
 
 
-class HelloWorld(FusionHandler):
-    def __init__(self, hyperparams,
-                 protocol_handler,
-                 data_handler,):
-        super().__init__(hyperparams,
-                         protocol_handler,
-                         data_handler)
-        logging.info('initiation of a cold cold world')
-        self.name = "helloworld script"
-        self.params_global = hyperparams.get('global') or {}
-        self.params_local = hyperparams.get('local') or None
-
-        self.rounds = self.params_global.get('rounds') or 1
-        self.curr_round = 0
-        self.global_accuracy = -1
-        self.termination_accuracy = self.params_global.get(
-            'termination_accuracy')
-
-    def execute_script(self):
-        logging.info('hello cold cold world and mr. me')
-
-    def start_global_training(self):
-        self.execute_script()
-
+class HelloWorld(abc.ABC):
+    def __init__(self, script_name,
+                 script_spec,
+                 keras_model=None,
+                 **kwargs):
         """
-        Starts an iterative global federated learning training process.
+        Initializes an `script` object
+
+        :param script_name: String describing the script
+        :type script_name: `str`
+        :param kwargs: Dictionary of model-specific arguments.
+        :type kwargs: `dict`
         """
-        # self.curr_round = 0
+        self.script_name = script_name
+        self.result = "init value"
 
-        # # log to Evidentia
-        # if self.evidencia:
-        #     self.evidencia.add_claim("sent_global_model",
-        #                             "{}, '\"{}\"'".format(self.curr_round + 1,
-        #                             hash_model_update(model_update)))
+    def execute(self):
+        """
+        Execute is a placeholder script for executing python code
+        """
+        self.result = str("helloWorld")
 
-        payload = {'hyperparams': {'local': self.params_local},
-                   'test': "test-message"
-                   }
-        #     logger.info('Model update' + str(model_update))
-
-        # query all available parties
-        lst_replies = self.query_all_parties(payload)
-        logging.info(lst_replies)
-        # # log to Evidentia
-        # if self.evidencia:
-        #     updates_hashes = []
-        #     for update in lst_replies:
-        #         updates_hashes.append(hash_model_update(update))
-        #         self.evidencia.add_claim("received_model_update_hashes",
-        #                                 "{}, '{}'".format(self.curr_round + 1,
-        #                                 str(updates_hashes).replace('\'', '"')))
-
-        # self.update_weights(lst_replies)
-
-        # # Update model if we are maintaining one
-        # if self.fl_model is not None:
-        #     self.fl_model.update_model(
-        #         ModelUpdate(weights=self.current_model_weights))
-
-        # self.curr_round += 1
-        # self.save_current_state()
-
-    def get_global_model(self):
-        logging.info("I don't want a model, I just need a friend")
+    def fetch_results(self):
+        """
+        Fetch results
+        placeholder function for returning the results gathered in execute
+        passes results on to the party local training handler
+        """
+        return self.result
 
 
 if __name__ == '__main__':

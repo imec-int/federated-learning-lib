@@ -20,7 +20,7 @@ import random
 from multiprocessing.pool import ThreadPool
 
 from ibmfl.aggregator.party_connection import PartyConnection
-from wouter.states_FA import States
+from ibmfl.aggregator.states import States
 from ibmfl.aggregator.fusion.fusion_state_service import States as FusionStates
 from ibmfl.message.message import Message
 from ibmfl.message.message_type import MessageType
