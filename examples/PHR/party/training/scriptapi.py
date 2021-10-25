@@ -21,3 +21,6 @@ class ScriptApi:
             dbName = dotenv.get_key(envPath, "DB_NAME")
             self.connection = psycopg2.connect(database=dbName, user=dbUser, password=dbPw, host=dbHost, port=dbPort, sslmode='require')
         return self.connection
+    
+    def close_postgresql_connection(self):
+        self.connection.close()
