@@ -5,14 +5,14 @@ import psycopg2
 # TODO place at entry point of application
 load_dotenv()
 
-envPath = "./examples/PHR/.env"
+envPath = "./phr/.env"
 
 class ScriptApi:
 
     def __init__(self) -> None:
         self.connection = None
 
-    def get_postgresql_connection(self) -> psycopg2.connection:
+    def get_postgresql_connection(self):
         if self.connection == None:
             dbUser = dotenv.get_key(envPath, "DB_USER")
             dbPw = dotenv.get_key(envPath, "DB_PASSWORD")

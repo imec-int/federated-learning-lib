@@ -56,9 +56,9 @@ class JoinFusionHandler(FusionHandler):
         self.update_dict(lst_replies)
 
     def update_dict(self, lst_replies):
-        for partyId in self.get_registered_parties:
+        for partyId in self.get_registered_parties():
             for modelUpdate in lst_replies:
-                if modelUpdate.exists_key(partyId):
+                if modelUpdate.exist_key(partyId):
                     self.dict[partyId] = modelUpdate.get(partyId)
 
     def get_global_model(self):
@@ -68,7 +68,7 @@ class JoinFusionHandler(FusionHandler):
         :return: model_update
         :rtype: `ModelUpdate`
         """
-        mu = ModelUpdate(kwargs=self.dict)
+        return ModelUpdate(**self.dict)
 
     def get_current_metrics(self):
         """Returns metrics pertaining to current state of fusion handler
