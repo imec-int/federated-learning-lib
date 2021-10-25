@@ -41,7 +41,7 @@ def get_mnist_model_config(folder_configs):
     # Save model
     fname = os.path.join(folder_configs, 'compiled_keras.h5')
 
-    K.clear_session()
+    # K.clear_session()
     # Generate model spec:
     spec = {
         'model_name': 'HelloWorld',

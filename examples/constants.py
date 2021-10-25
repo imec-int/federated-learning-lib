@@ -32,8 +32,8 @@ FL_EXAMPLES = ["iter_avg", "fedavg", "coordinate_median", "gradient_aggregation"
                 "differential_privacy_sgd", 
                 "rl_cartpole", "rl_pendulum", "sklearn_logclassification_rw", "spahm",
                 "sklearn_logclassification_globalrw", "naive_bayes_dp", "id3_dt", "prej_remover", "iter_avg_openshift", "shuffle_iter_avg",
-                "coordinate_median_plus", "geometric_median_plus"]
-FL_MODELS = ["keras", "pytorch", "tf", "sklearn", "None"]
+                "coordinate_median_plus", "geometric_median_plus", "PHR"]
+FL_MODELS = ["keras", "pytorch", "tf", "sklearn", "script"]
 
 FL_CONN_TYPES = ["flask", "rabbitmq"]
 
