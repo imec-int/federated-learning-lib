@@ -48,8 +48,8 @@ class LocalTrainingHandler():
         TODO: need to return the name of the party?
         :param fit_params: (optional) Query instruction from aggregator
         :type fit_params: `dict`
-        :return: ModelUpdate
-        :rtype: `ModelUpdate`
+        :return: dict
+        :rtype: `dict`
         """
 
         train_data, _ = self.data_handler.get_data()
@@ -62,7 +62,7 @@ class LocalTrainingHandler():
         #if self.evidencia:
         #    self.evidencia.add_claim("sentresults", "results")
 
-        return ModelUpdate(**train_data)
+        return train_data
 
 #TODO not needed, yet called from party_protocol_handler
     def set_metrics_recorder_obj(self, metrics_recorder):

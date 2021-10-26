@@ -52,14 +52,10 @@ class JoinFusionHandler(FusionHandler):
                 self.evidencia.add_claim("received_model_update_hashes",
                                         "{}, '{}'".format(self.curr_round + 1,
                                         str(updates_hashes).replace('\'', '"')))
-
-        self.update_dict(lst_replies)
-
-    def update_dict(self, lst_replies):
-        for partyId in self.get_registered_parties():
-            for modelUpdate in lst_replies:
-                if modelUpdate.exist_key(partyId):
-                    self.dict[partyId] = modelUpdate.get(partyId)
+        
+        for dict in lst_replies:
+            for key, value in dict.items():
+                self.dict[key] = value
 
     def get_global_model(self):
         """

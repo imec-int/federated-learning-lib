@@ -44,21 +44,24 @@
         "request": "launch",
         // "program": "lib/ibmfl/aggregator/aggregator.py",
         "module": "ibmfl.aggregator.aggregator",
-        "args": ["examples/configs/PHR/script/config_agg.yml"]
+        "args": ["examples/configs/PHR/script/config_agg.yml"],
+        "justMyCode": false
       },
       {
         "name": "eicu male/female hosp1",
         "type": "python",
         "request": "launch",
         "module": "ibmfl.party.party",
-        "args": ["examples/configs/PHR/script/config_hospital1.yml"]
+        "args": ["examples/configs/PHR/script/config_hospital1.yml"],
+        "justMyCode": false
       },
       {
         "name": "eicu male/female hosp2",
         "type": "python",
         "request": "launch",
         "module": "ibmfl.party.party",
-        "args": ["examples/configs/PHR/script/config_hospital2.yml"]
+        "args": ["examples/configs/PHR/script/config_hospital2.yml"],
+        "justMyCode": false
       },
   ]
 }
