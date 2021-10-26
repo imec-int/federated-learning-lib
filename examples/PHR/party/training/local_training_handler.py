@@ -54,6 +54,8 @@ class LocalTrainingHandler():
         :rtype: `ModelUpdate`
         """
 
+        train_data, _ = self.data_handler.get_data()
+
         if self.evidencia:
             self.evidencia.add_claim("executing script", "helloworld")
         self.fl_model.execute()
