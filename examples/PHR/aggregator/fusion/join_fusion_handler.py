@@ -8,7 +8,7 @@ from ibmfl.evidencia.util.hashing import hash_model_update
 logger = logging.getLogger(__name__)
 
 
-class join_fusion_handler(FusionHandler):
+class JoinFusionHandler(FusionHandler):
     """
     A simple FusionHandler that collects data from the parties in a single dict.
     """

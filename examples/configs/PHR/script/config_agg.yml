@@ -13,7 +13,7 @@ connection:
 #  name: MnistKerasDataHandler
 #  path: ibmfl.util.data_handlers.mnist_keras_data_handler
 fusion:
-  name: join_fusion_handler
+  name: JoinFusionHandler
   path: examples.PHR.aggregator.fusion.join_fusion_handler
 hyperparams:
   global:

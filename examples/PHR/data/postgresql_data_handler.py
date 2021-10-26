@@ -29,7 +29,7 @@ class PostgreSqlDataHandler(DataHandler):
 
     def get_data(self):
         """
-        Gets pre-process mnist training and testing data.
+        Executes query to fetch training data.
 
         :return: the training and testing data.
         :rtype: `tuple`
@@ -44,6 +44,7 @@ class PostgreSqlDataHandler(DataHandler):
         cur = conn.cursor()
         cur.execute('SELECT gender, COUNT(*) FROM eicu_crd.patient GROUP BY gender')
         dict = {self.database: {gender: nb for (gender, nb) in cur.fetchall()}}
+        
         conn.close()
 
         return dict, None
