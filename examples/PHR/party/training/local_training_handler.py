@@ -6,11 +6,9 @@ Restricted Materials of IBM
 """
 import logging
 
-from ibmfl.exceptions import LocalTrainingException, \
-    ModelUpdateException
-from ibmfl.evidencia.util.hashing import hash_np_array, \
-    hash_model_update
-import numpy as np
+from ibmfl.evidencia.util.hashing import hash_model_update, hash_np_array
+from ibmfl.exceptions import LocalTrainingException, ModelUpdateException
+from ibmfl.model.model_update import ModelUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -56,16 +54,15 @@ class LocalTrainingHandler():
 
         train_data, _ = self.data_handler.get_data()
 
-        if self.evidencia:
-            self.evidencia.add_claim("executing script", "helloworld")
-        self.fl_model.execute()
-        update = self.fl_model.fetch_results()
-        
+        #if self.evidencia:
+        #    self.evidencia.add_claim("executing script", "helloworld")
+        #self.fl_model.execute()
+        #update = self.fl_model.fetch_results()
 
-        if self.evidencia:
-            self.evidencia.add_claim("sentresults", "results")
+        #if self.evidencia:
+        #    self.evidencia.add_claim("sentresults", "results")
 
-        return update
+        return ModelUpdate(**train_data)
 
 #TODO not needed, yet called from party_protocol_handler
     def set_metrics_recorder_obj(self, metrics_recorder):

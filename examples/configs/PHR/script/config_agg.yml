@@ -7,11 +7,6 @@ connection:
   name: FlaskConnection
   path: ibmfl.connection.flask_connection
   sync: false
-#data:
-#  info:
-#    npz_file: examples/datasets/mnist.npz
-#  name: MnistKerasDataHandler
-#  path: ibmfl.util.data_handlers.mnist_keras_data_handler
 fusion:
   name: JoinFusionHandler
   path: examples.PHR.aggregator.fusion.join_fusion_handler

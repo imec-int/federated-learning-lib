@@ -21,11 +21,10 @@ local_training:
   name: LocalTrainingHandler
   path: examples.PHR.party.training.local_training_handler
 model:
-  name: HelloWorld
-  path: examples.PHR.HelloWorld
+  name: NoopFLModel
+  path: examples.PHR.model.noop_fl_model
   spec:
-    model_definition: examples/configs/PHR/script/compiled_keras.h5
-    model_name: HelloWorld
+    model_name: NoopFLModel
 privacy:
   metrics: true
 protocol_handler:
