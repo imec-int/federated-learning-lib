@@ -13,8 +13,6 @@ logger = logging.getLogger(__name__)
 # TODO place at entry point of application
 load_dotenv()
 
-envPath = "./examples/PHR/.env"
-
 class PostgreSqlDataHandler(DataHandler):
     """
     Data handler for PostgreSQL database access.
@@ -26,6 +24,7 @@ class PostgreSqlDataHandler(DataHandler):
         self.host = data_config['host']
         self.port = data_config['port']
         self.database = data_config['database']
+        self.envPath = data_config['envPath']
 
     def get_data(self):
         """
@@ -34,12 +33,7 @@ class PostgreSqlDataHandler(DataHandler):
         :return: the training and testing data.
         :rtype: `tuple`
         """
-        dbUser = dotenv.get_key(envPath, "DB_USER")
-        dbPw = dotenv.get_key(envPath, "DB_PASSWORD")
-
-        conn = psycopg2.connect(host=self.host, port=self.port, database=self.database,
-                                user=dbUser, password=dbPw,
-                                sslmode='require')
+        conn = self.connect()
         
         cur = conn.cursor()
         cur.execute('SELECT gender, COUNT(*) FROM eicu_crd.patient GROUP BY gender')
@@ -48,3 +42,25 @@ class PostgreSqlDataHandler(DataHandler):
         conn.close()
 
         return dict, None
+
+    def save_data(self,statement:str,rows):
+        """Inserts the given rows (tuples) of data with the given INSERT statement.
+        
+        This is usually not the job of a DataHandler, but it already has all the setup for database connections and is passed to the
+        FusionHander for other uses, so it was easier this way.
+        """
+        conn = self.connect()
+
+        cur = conn.cursor()
+        cur.executemany(statement, rows)
+        conn.commit()
+
+        conn.close()
+
+    def connect(self):
+        dbUser = dotenv.get_key(self.envPath, "DB_USER")
+        dbPw = dotenv.get_key(self.envPath, "DB_PASSWORD")
+
+        return psycopg2.connect(host=self.host, port=self.port, database=self.database,
+                                user=dbUser, password=dbPw,
+                                sslmode='require')

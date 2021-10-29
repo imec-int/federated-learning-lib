@@ -7,6 +7,14 @@ connection:
   name: FlaskConnection
   path: ibmfl.connection.flask_connection
   sync: false
+data:
+  info:
+    host: phr-icufair-central-db-server.postgres.database.azure.com
+    port: 5432
+    database: aggregator
+    envPath: ./examples/PHR/aggregator/.env
+  name: PostgreSqlDataHandler
+  path: examples.PHR.data.postgresql_data_handler
 fusion:
   name: JoinFusionHandler
   path: examples.PHR.aggregator.fusion.join_fusion_handler

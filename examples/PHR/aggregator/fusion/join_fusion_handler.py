@@ -30,6 +30,8 @@ class JoinFusionHandler(FusionHandler):
         self.global_accuracy = -1
         self.termination_accuracy = self.params_global.get(
             'termination_accuracy')
+
+        self.data_handler = data_handler
         
         self.dict = {}
 
@@ -78,3 +80,21 @@ class JoinFusionHandler(FusionHandler):
         fh_metrics['acc'] = self.global_accuracy
         #fh_metrics['model_update'] = self.model_update
         return fh_metrics
+
+    def save_parties_models(self):
+        """Will save the local model instead (triggered by the SAVE command)."""
+        rows = []
+        for key, value in self.dict.items():
+            db = key
+            nbfemale, nbmale, nbother, nbunknown = 0, 0, 0, 0
+            for key, value in value.items():
+                if key=='Female':
+                    nbfemale = int(value)
+                elif key=='Male':
+                    nbmale = int(value)
+                elif key=='Other':
+                    nbother = int(value)
+                else:
+                    nbunknown += int(value)
+            rows.append((db,nbfemale, nbmale, nbother, nbunknown))
+        self.data_handler.save_data("INSERT INTO results.malefemaleratio(sourcedatabase, nbfemale, nbmale, nbother, nbunknown) VALUES(%s,%s,%s,%s,%s)", rows)

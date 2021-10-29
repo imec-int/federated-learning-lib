@@ -15,6 +15,7 @@ data:
     host: edit-ph-eicu.postgres.database.azure.com
     port: 5432
     database: hospital1
+    envPath: ./examples/PHR/party/.env
   name: PostgreSqlDataHandler
   path: examples.PHR.data.postgresql_data_handler
 local_training:
