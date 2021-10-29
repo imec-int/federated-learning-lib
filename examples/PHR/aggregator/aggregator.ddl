@@ -1,9 +1,8 @@
 CREATE SCHEMA results;
 
-CREATE TABLE results.maleFemaleRatio(
+CREATE TABLE results.nbAdmissionsByGender(
     sourceDatabase CHARACTER VARYING(64),
-    nbMale INTEGER,
-    nbFemale INTEGER,
-    nbOther INTEGER,
-    nbUnknown INTEGER
+    gender CHARACTER VARYING(64),
+    admissionHour INTEGER,
+    count INTEGER
 );

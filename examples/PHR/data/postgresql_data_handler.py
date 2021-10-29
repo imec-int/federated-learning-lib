@@ -28,7 +28,7 @@ class PostgreSqlDataHandler(DataHandler):
 
     def get_data(self):
         """
-        Executes query to fetch training data.
+        Executes query to fetch training data (party side).
 
         :return: the training and testing data.
         :rtype: `tuple`
@@ -36,18 +36,26 @@ class PostgreSqlDataHandler(DataHandler):
         conn = self.connect()
         
         cur = conn.cursor()
-        cur.execute('SELECT gender, COUNT(*) FROM eicu_crd.patient GROUP BY gender')
-        dict = {self.database: {gender: nb for (gender, nb) in cur.fetchall()}}
+
+        sql = """SELECT gender, substring(hospitaladmittime24, 0, 3) AS admissionHour, count(*)
+FROM eicu_crd.patient
+GROUP BY gender, substring(hospitaladmittime24, 0, 3)"""
+        cur.execute(sql)
+        data = [{'sourceDatabase': self.database, 'gender': gender, 'admissionHour': int(admissionHour), 'count': int(count)}
+            for (gender, admissionHour, count) in cur.fetchall()]
+
+        #cur.execute('SELECT gender, COUNT(*) FROM eicu_crd.patient GROUP BY gender')
+        #data = {self.database: {gender: nb for (gender, nb) in cur.fetchall()}}
         
         conn.close()
 
-        return dict, None
+        return data, None
 
     def save_data(self,statement:str,rows):
         """Inserts the given rows (tuples) of data with the given INSERT statement.
         
         This is usually not the job of a DataHandler, but it already has all the setup for database connections and is passed to the
-        FusionHander for other uses, so it was easier this way.
+        FusionHander for other uses, so it was easier this way. Used aggregator side.
         """
         conn = self.connect()
 

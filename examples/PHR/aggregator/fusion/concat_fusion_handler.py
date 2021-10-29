@@ -8,9 +8,9 @@ from ibmfl.evidencia.util.hashing import hash_model_update
 logger = logging.getLogger(__name__)
 
 
-class JoinFusionHandler(FusionHandler):
+class ConcatFusionHandler(FusionHandler):
     """
-    A simple FusionHandler that collects data from the parties in a single dict.
+    A simple FusionHandler that collects data from the parties in a single list.
     """
 
     def __init__(self, hyperparams,
@@ -23,7 +23,7 @@ class JoinFusionHandler(FusionHandler):
                          data_handler,
                          fl_model,
                          **kwargs)
-        self.name = "JoinFusionHandler"
+        self.name = "ConcatFusionHandler"
         self.params_global = hyperparams.get('global') or {}
         self.params_local = hyperparams.get('local') or None
 
@@ -33,7 +33,7 @@ class JoinFusionHandler(FusionHandler):
 
         self.data_handler = data_handler
         
-        self.dict = {}
+        self.list = []
 
     def start_global_training(self):
         """
@@ -55,9 +55,8 @@ class JoinFusionHandler(FusionHandler):
                                         "{}, '{}'".format(self.curr_round + 1,
                                         str(updates_hashes).replace('\'', '"')))
         
-        for dict in lst_replies:
-            for key, value in dict.items():
-                self.dict[key] = value
+        for list in lst_replies:
+            self.list.extend(list)
 
     def get_global_model(self):
         """
@@ -84,17 +83,11 @@ class JoinFusionHandler(FusionHandler):
     def save_parties_models(self):
         """Will save the aggregated results instead (triggered by the SAVE command)."""
         rows = []
-        for key, value in self.dict.items():
-            db = key
-            nbfemale, nbmale, nbother, nbunknown = 0, 0, 0, 0
-            for key, value in value.items():
-                if key=='Female':
-                    nbfemale = int(value)
-                elif key=='Male':
-                    nbmale = int(value)
-                elif key=='Other':
-                    nbother = int(value)
-                else:
-                    nbunknown += int(value)
-            rows.append((db,nbfemale, nbmale, nbother, nbunknown))
-        self.data_handler.save_data("INSERT INTO results.malefemaleratio(sourcedatabase, nbfemale, nbmale, nbother, nbunknown) VALUES(%s,%s,%s,%s,%s)", rows)
+        for dict in self.list:
+            rows.append((
+                dict['sourceDatabase'],
+                dict['gender'],
+                dict['admissionHour'],
+                dict['count']
+            ))
+        self.data_handler.save_data("INSERT INTO results.nbAdmissionsByGender(sourceDatabase, gender, admissionHour, count) VALUES(%s,%s,%s,%s)", rows)

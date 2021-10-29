@@ -16,8 +16,8 @@ data:
   name: PostgreSqlDataHandler
   path: examples.PHR.data.postgresql_data_handler
 fusion:
-  name: JoinFusionHandler
-  path: examples.PHR.aggregator.fusion.join_fusion_handler
+  name: ConcatFusionHandler
+  path: examples.PHR.aggregator.fusion.concat_fusion_handler
 hyperparams:
   global:
     num_parties: 2
