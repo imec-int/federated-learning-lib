@@ -9,7 +9,7 @@ connection:
   sync: false
 data:
   info:
-    host: phr-icufair-central-db-server.postgres.database.azure.com
+    host: central-dbs.postgres.database.azure.com
     port: 5432
     database: aggregator
     envPath: ./examples/PHR/aggregator/.env
