@@ -1,6 +1,6 @@
 aggregator:
   #ip: 127.0.0.1
-  ip: 51.124.219.98
+  ip: 172.19.0.4
   port: 5000
 connection:
   info:
