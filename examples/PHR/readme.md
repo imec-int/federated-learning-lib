@@ -25,3 +25,12 @@ To launch, simply run `. scripts/launch-aggregator.sh` from the repo root.
 To complete the setup for the aggregator, one has to add the file `federated-learning-lib/examples/PHR/party/.env` according to the template file at the same location. The database password can be found in 1Password (attention: choose the right database!). Notice the config files `federated-learning-lib/examples/configs/PHR/script/config_hospital*.yml` were already prepared and contain the private IP address of the `hospital*` VM as well as the settings for connection with the `edit-ph-eicu` database server.
 
 To launch, simply run `. scripts/launch-hospitalN.sh X` with `X` being `1`, `2` or `3` from the repo root.
+
+### commands
+
+|command|where to execute|function|
+|---|---|---|
+|START|all|launch inits from script, read config files|
+|REGISTER|parties| registers the specific party at the aggregator, so it's a known participator|
+|TRAIN|aggregator| repurposed FL TRAIN command to run the query on the parties and gather the results|
+|SAVE|aggregator|inject the query results in the application dB|
