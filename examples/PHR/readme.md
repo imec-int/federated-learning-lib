@@ -3,7 +3,7 @@
 ## General
 
 Four VM's were created: one for the aggregator and three for the hospitals. They were put in the Azure resource group `phr-icufair` and communicate over the resource group's virtual network (using internal IP addresses). To setup:
- 1. login via SSH: ssh -i <path to private key file> azureuser@<public IP address>
+ 1. login via SSH: `ssh -i <path to private key file> azureuser@<public IP address>`
      - private keys can be found in 1Password: look for "icu" in the EDiT/Developers vault
      - public IP address can be found in the Azure Portal
  2. `git pull https://github.com/imec-int/federated-learning-lib`
