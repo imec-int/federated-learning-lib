@@ -1,9 +1,11 @@
 aggregator:
-  ip: 127.0.0.1
+  #ip: 127.0.0.1
+  ip: 51.124.219.98
   port: 5000
 connection:
   info:
-    ip: 127.0.0.1
+    #ip: 127.0.0.1
+    ip: 104.46.54.155
     port: 8085
     tls_config:
       enable: false
