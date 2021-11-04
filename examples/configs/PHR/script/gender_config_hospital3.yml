@@ -5,7 +5,7 @@ aggregator:
 connection:
   info:
     #ip: 127.0.0.1
-    ip: 172.19.0.6
+    ip: 172.19.0.7
     port: 8085
     tls_config:
       enable: false
@@ -16,10 +16,10 @@ data:
   info:
     host: edit-ph-eicu.postgres.database.azure.com
     port: 5432
-    database: hospital2
+    database: hospital3
     envPath: ./examples/PHR/party/.env
   name: PostgreSqlDataHandler
-  path: examples.PHR.data.postgresql_data_handler
+  path: examples.PHR.data.gender_postgresql_data_handler
 local_training:
   name: LocalTrainingHandler
   path: examples.PHR.party.training.local_training_handler

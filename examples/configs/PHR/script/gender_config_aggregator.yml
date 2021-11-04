@@ -14,10 +14,10 @@ data:
     database: aggregator
     envPath: ./examples/PHR/aggregator/.env
   name: PostgreSqlDataHandler
-  path: examples.PHR.data.postgresql_data_handler
+  path: examples.PHR.data.gender_postgresql_data_handler
 fusion:
   name: ConcatFusionHandler
-  path: examples.PHR.aggregator.fusion.concat_fusion_handler
+  path: examples.PHR.aggregator.fusion.gender_concat_fusion_handler
 hyperparams:
   global:
     num_parties: 2

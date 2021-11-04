@@ -18,13 +18,13 @@ There are also two database servers in play:
 
 To complete the setup for the aggregator, one has to add the file `federated-learning-lib/examples/PHR/aggregator/.env` according to the template file at the same location. The database password can be found in 1Password (attention: choose the right database!). Notice the config file `federated-learning-lib/examples/configs/PHR/script/config_aggregator.yml` was already prepared and contains the private IP address of the `aggregator` VM as well as the settings for connection with the `central-dbs` database server.
 
-To launch, simply run `. scripts/launch-aggregator.sh` from the repo root.
+To launch, simply run `. scripts/launch-aggregator.sh` from the repo root with a startup option: `gender` or `sofa` or `fl`.
 
 ### hospitalN
 
 To complete the setup for the aggregator, one has to add the file `federated-learning-lib/examples/PHR/party/.env` according to the template file at the same location. The database password can be found in 1Password (attention: choose the right database!). Notice the config files `federated-learning-lib/examples/configs/PHR/script/config_hospital*.yml` were already prepared and contain the private IP address of the `hospital*` VM as well as the settings for connection with the `edit-ph-eicu` database server.
 
-To launch, simply run `. scripts/launch-hospitalN.sh X` with `X` being `1`, `2` or `3` from the repo root.
+To launch, simply run `. scripts/launch-hospitalN.sh X Y` with `X` being `1`, `2` or `3` from the repo root and Y the startup option: `gender` or `sofa` or `fl`.
 
 ### commands
 
