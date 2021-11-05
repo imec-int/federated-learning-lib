@@ -48,18 +48,18 @@ class PostgreSqlDataHandler(DataHandler):
         data = [{'sourceDatabase': self.database, 'patientid': patient,  'ademhaling': ademhaling}
                 for (patient, ademhaling) in cur.fetchall()]
         data = pd.DataFrame(data, columns=['patientid', 'ademhaling'])
-        data['sofa_ademhaling'] = data['ademhaling'].mask(
-            data['ademhaling'] == 100, None) # probably empty values which were -1
-        data['sofa_ademhaling'] = data['sofa_ademhaling'].mask(
-            data['sofa_ademhaling'] < 100, 4)
-        data['sofa_ademhaling'] = data['sofa_ademhaling'].mask(
-            data['sofa_ademhaling'].between(100, 200), 3)
-        data['sofa_ademhaling'] = data['sofa_ademhaling'].mask(
-            data['sofa_ademhaling'].between(200, 300), 2)
-        data['sofa_ademhaling'] = data['sofa_ademhaling'].mask(
-            data['sofa_ademhaling'].between(300, 400), 1)
-        data['sofa_ademhaling'] = data['sofa_ademhaling'].mask(
-            data['sofa_ademhaling'] >= 400, 0)
+        data['ademhaling'].mask(
+            data['ademhaling'] == 100, None, inplace=True)  # probably empty values which were -1
+        data['ademhaling'].mask(
+            data['ademhaling'] < 100, 4, inplace=True)
+        data['ademhaling'].mask(
+            data['ademhaling'].between(100, 200), 3, inplace=True)
+        data['ademhaling'].mask(
+            data['ademhaling'].between(200, 300), 2, inplace=True)
+        data['ademhaling'].mask(
+            data['ademhaling'].between(300, 400), 1, inplace=True)
+        data['ademhaling'].mask(
+            data['ademhaling'] >= 400, 0, inplace=True)
         print(data.head(10))
         resp_data = data  # TODO calculate array of SOFA scores for respiratory entries
         return resp_data
