@@ -28,7 +28,7 @@ SELECT patientunitstayid,
  when lower(drugname) like '%(ml/hr)%' then round(cast(drugrate as numeric) / 3, 3) -- rate in ml/h * 1600 mcg/ml / 80 kg / 60 min, to convert in mcg/kg/min
  when lower(drugname) like '%(mcg/kg/min)%' then cast(drugrate as numeric)
  */
-SELECT v.patientunitstayid,
+/*SELECT v.patientunitstayid,
  (v.pasystolic + 2 * v.padiastolic) / 3 as MAP,
  i.patientunitstayid,
  i.drugname,
@@ -36,11 +36,11 @@ SELECT v.patientunitstayid,
  FROM eicu_crd.vitalperiodic v
  FULL OUTER JOIN eicu_crd.infusiondrug i
  ON v.patientunitstayid = i.patientunitstayid
- WHERE lower(drugname) like '%dopamine%'
- or lower(drugname) like '%dobutamin%'
- or lower(drugname) like '%epinephrine%'
- or lower(drugname) like '%norepinephrine%'
- ORDER BY i.patientunitstayid;
+ WHERE lower(i.drugname) like '%dopamine%'
+ or lower(i.drugname) like '%dobutamin%'
+ or lower(i.drugname) like '%epinephrine%'
+ or lower(i.drugname) like '%norepinephrine%'
+ ORDER BY i.patientunitstayid;*/
 /* Leverfunctie: Bilirubine-concentratie */
 SELECT patientunitstayid,
  bilirubin as leverfunctie

@@ -31,15 +31,22 @@ class PostgreSqlDataHandler(DataHandler):
         '''
         function querying the dB for respiratory entries (PaO2/FiO2).
         Returns: array of patient-ids & SOFA scores based on PaO2/FiO2
+        PaO2/FiO2 [mmHg (kPa)] 	SOFA score
+        ≥ 400 (53.3) ->	0
+        < 400 (53.3) ->	+1
+        < 300 (40) 	 -> +2
+        < 200 (26.7) and mechanically ventilated ->	+3
+        < 100 (13.3) and mechanically ventilated ->	+4 
+        #TODO is formula correct?
+        #TODO do we need mechanically ventilated?
         '''
         sql = """SELECT patientunitstayid,
-            pao2,
-            fio2,
-            pao2 / fio2 as ademhaling
+            pao2 / (fio2/100) as ademhaling
             FROM eicu_crd.apacheapsvar;"""
         cur.execute(sql)
-        data = [{'sourceDatabase': self.database, 'patientid': patient, 'ademhaling': ademhaling}
+        data = [{'sourceDatabase': self.database, 'patientid': patient,  'ademhaling': ademhaling}
                 for (patient, ademhaling) in cur.fetchall()]
+
         resp_data = data  # TODO calculate array of SOFA scores for respiratory entries
         return resp_data
 
@@ -139,12 +146,13 @@ class PostgreSqlDataHandler(DataHandler):
         # TODO calculate array of SOFA scores for coagulation entries, do we need/want labname?
         kidney_data = data
         return kidney_data
+
     def calc_sofa(self, *args):
         '''
         in calc_sofa function we calculate the sofa score for each correspond patient id
         we return the mean, std_dev & length of the sofa score 
         '''
-        #TODO
+        # TODO
         print(args)
 
     def get_data(self):
@@ -165,7 +173,8 @@ class PostgreSqlDataHandler(DataHandler):
         liver_data = self.get_liver_data(cur)
         coag_data = self.get_coagulation_data(cur)
         kidney_data = self.get_kidneys_data(cur)
-        data = self.calc_sofa(resp_data, ns_data, cs_data, liver_data, coag_data, kidney_data)
+        data = self.calc_sofa(resp_data, ns_data, cs_data,
+                              liver_data, coag_data, kidney_data)
         conn.close()
 
         return data, None
