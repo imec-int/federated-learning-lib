@@ -4,64 +4,105 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    // {
+    //   "name": "iter_avg keras aggregator",
+    //   "type": "python",
+    //   "request": "launch",
+    //   "module": "ibmfl.aggregator.aggregator",
+    //   "args": ["examples/configs/iter_avg/keras/config_agg.yml"]
+    // },
+    // {
+    //   "name": "iter_avg keras party0",
+    //   "type": "python",
+    //   "request": "launch",
+    //   "module": "ibmfl.party.party",
+    //   "args": ["examples/configs/iter_avg/keras/config_party0.yml"]
+    // },
+    // {
+    //   "name": "iter_avg keras party1",
+    //   "type": "python",
+    //   "request": "launch",
+    //   "module": "ibmfl.party.party",
+    //   "args": ["examples/configs/iter_avg/keras/config_party1.yml"]
+    // },
+    // {
+    //   "name": "create config",
+    //   "type": "python",
+    //   "request": "launch",
+    //   "program": "examples/generate_configs.py",
+    //   "args": [
+    //     "-f","PHR",
+    //     "-m","script",
+    //     "-n","2",
+    //     "-d","mnist",
+    //     "-p","examples/data/mnist/random"
+    //   ]
+    // },
     {
-      "name": "iter_avg keras aggregator",
+      "name": "eicu male/female agg",
       "type": "python",
       "request": "launch",
+      // "program": "lib/ibmfl/aggregator/aggregator.py",
       "module": "ibmfl.aggregator.aggregator",
-      "args": ["examples/configs/iter_avg/keras/config_agg.yml"]
+      "args": ["examples/configs/PHR/script/gender_config_aggregator.yml"],
+      "justMyCode": false
     },
     {
-      "name": "iter_avg keras party0",
+      "name": "eicu male/female hosp1",
       "type": "python",
       "request": "launch",
       "module": "ibmfl.party.party",
-      "args": ["examples/configs/iter_avg/keras/config_party0.yml"]
+      "args": ["examples/configs/PHR/script/gender_config_hospital1.yml"],
+      "justMyCode": false
     },
     {
-      "name": "iter_avg keras party1",
+      "name": "eicu male/female hosp2",
       "type": "python",
       "request": "launch",
       "module": "ibmfl.party.party",
-      "args": ["examples/configs/iter_avg/keras/config_party1.yml"]
+      "args": ["examples/configs/PHR/script/gender_config_hospital2.yml"],
+      "justMyCode": false
     },
     {
-      "name": "create config",
+      "name": "eicu male/female hosp3",
       "type": "python",
       "request": "launch",
-      "program": "examples/generate_configs.py",
-      "args": [
-        "-f","PHR",
-        "-m","script",
-        "-n","2",
-        "-d","mnist",
-        "-p","examples/data/mnist/random"
-      ]
+      "module": "ibmfl.party.party",
+      "args": ["examples/configs/PHR/script/gender_config_hospital3.yml"],
+      "justMyCode": false
     },
     {
-        "name": "eicu male/female agg",
-        "type": "python",
-        "request": "launch",
-        // "program": "lib/ibmfl/aggregator/aggregator.py",
-        "module": "ibmfl.aggregator.aggregator",
-        "args": ["examples/configs/PHR/script/config_agg.yml"],
-        "justMyCode": false
-      },
-      {
-        "name": "eicu male/female hosp1",
-        "type": "python",
-        "request": "launch",
-        "module": "ibmfl.party.party",
-        "args": ["examples/configs/PHR/script/config_hospital1.yml"],
-        "justMyCode": false
-      },
-      {
-        "name": "eicu male/female hosp2",
-        "type": "python",
-        "request": "launch",
-        "module": "ibmfl.party.party",
-        "args": ["examples/configs/PHR/script/config_hospital2.yml"],
-        "justMyCode": false
-      },
+      "name": "eicu SOFA agg",
+      "type": "python",
+      "request": "launch",
+      // "program": "lib/ibmfl/aggregator/aggregator.py",
+      "module": "ibmfl.aggregator.aggregator",
+      "args": ["examples/configs/PHR/script/sofa_config_aggregator.yml"],
+      "justMyCode": false
+    },
+    {
+      "name": "eicu SOFA hosp1",
+      "type": "python",
+      "request": "launch",
+      "module": "ibmfl.party.party",
+      "args": ["examples/configs/PHR/script/sofa_config_hospital1.yml"],
+      "justMyCode": false
+    },
+    {
+      "name": "eicu SOFA hosp2",
+      "type": "python",
+      "request": "launch",
+      "module": "ibmfl.party.party",
+      "args": ["examples/configs/PHR/script/sofa_config_hospital2.yml"],
+      "justMyCode": false
+    },
+    {
+      "name": "eicu SOFA hosp3",
+      "type": "python",
+      "request": "launch",
+      "module": "ibmfl.party.party",
+      "args": ["examples/configs/PHR/script/sofa_config_hospital3.yml"],
+      "justMyCode": false
+    }
   ]
 }
