@@ -86,8 +86,7 @@ class ConcatFusionHandler(FusionHandler):
         for dict in self.list:
             rows.append((
                 dict['sourceDatabase'],
-                dict['gender'],
-                dict['admissionHour'],
-                dict['count']
+                dict['sofaAvg'],
+                dict['sofaStd']
             ))
-        self.data_handler.save_data("INSERT INTO results.nbAdmissionsByGender(sourceDatabase, gender, admissionHour, count) VALUES(%s,%s,%s,%s)", rows)
+        self.data_handler.save_data("INSERT INTO results.sofaScores(sourceDatabase, sofaAvg, sofaStd) VALUES(%s,%s,%s)", rows)

@@ -273,7 +273,7 @@ class PostgreSqlDataHandler(DataHandler):
         """
         Executes query and calculates the sofa score based on it.
 
-        :return: A tuple containing the database, the average score and the standard deviation of the scores (train data) and None (test data).
+        :return: A list with one dict like {'sourceDatabase': '...', 'sofaAvg': ..., 'sofaStd': ...} (train data) and None (test data).
         """
         conn = self.connect()
 
@@ -293,7 +293,9 @@ class PostgreSqlDataHandler(DataHandler):
         
         #np.savetxt("patient_scores.csv", patientScores, delimiter=",")
 
-        return (self.database, np.average(patientScores), np.std(patientScores)), None
+        return [{'sourceDatabase': self.database,
+                 'sofaAvg': np.average(patientScores),
+                 'sofaStd': np.std(patientScores)}], None
 
     def save_data(self, statement: str, rows):
         """Inserts the given rows (tuples) of data with the given INSERT statement.

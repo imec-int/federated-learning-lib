@@ -6,3 +6,9 @@ CREATE TABLE results.nbAdmissionsByGender(
     admissionHour INTEGER,
     count INTEGER
 );
+
+CREATE TABLE results.sofaScores(
+    sourceDatabase CHARACTER VARYING(64),
+    sofaAvg REAL,
+    sofaStd REAL
+);
