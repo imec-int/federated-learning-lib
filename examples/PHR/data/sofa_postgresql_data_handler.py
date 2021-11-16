@@ -17,6 +17,12 @@ logger = logging.getLogger(__name__)
 # TODO place at entry point of application
 load_dotenv()
 
+def get_value_or_0(rows, patientId):
+    for (patId, value) in rows:
+        if patId == patientId:
+            return value
+    return 0
+
 class PostgreSqlDataHandler(DataHandler):
     """
     Data handler for PostgreSQL database access.
@@ -33,7 +39,7 @@ class PostgreSqlDataHandler(DataHandler):
     def get_respiratory_scores(self, cur):
         '''
         Function calculating the respiratory components of SOFA scores.
-        Returns: array of tuples like (sourceDatabase, patientId, sofaScore)
+        Returns: array of tuples like (patientId, sofaScore)
         PaO2/FiO2 [mmHg (kPa)] 	SOFA score
         ≥ 400 (53.3) ->	0
         < 400 (53.3) ->	+1
@@ -54,12 +60,12 @@ class PostgreSqlDataHandler(DataHandler):
                  FROM eicu_crd.apacheapsvar
                  WHERE pao2 > 0 AND fio2 > 0;"""
         cur.execute(sql)
-        return [(self.database, patientId, to_sofa(ratio)) for (patientId, ratio) in cur.fetchall()]
+        return [(patientId, to_sofa(ratio)) for (patientId, ratio) in cur.fetchall()]
 
     def get_nervous_system_scores(self, cur):
         '''
         Function calculating the nervous system components of SOFA scores.
-        Returns: array of tuples like (sourceDatabase, patientId, sofaScore)
+        Returns: array of tuples like (patientId, sofaScore)
         '''
         sql = """SELECT patientunitstayid, eyes + verbal + motor as gcs
             FROM eicu_crd.apacheapsvar
@@ -72,12 +78,12 @@ class PostgreSqlDataHandler(DataHandler):
             if gcs < 13: return 2
             if gcs < 15: return 1
             return 0
-        return [(self.database, patientId, to_sofa(gcs)) for (patientId, gcs) in cur.fetchall()]
+        return [(patientId, to_sofa(gcs)) for (patientId, gcs) in cur.fetchall()]
 
     def get_cardiovascular_system_scores(self, conn):
         '''
         Function calculating the cardiovascular system components of SOFA scores.
-        Returns: array of tuples like (sourceDatabase, patientId, sofaScore)
+        Returns: array of tuples like (patientId, sofaScore)
         '''
 
         pool = ThreadPool(mp.cpu_count())
@@ -170,12 +176,6 @@ class PostgreSqlDataHandler(DataHandler):
                 if not patId in allPatientIds:
                     allPatientIds.append(patId)
 
-        def get_value_or_0(rows, patientId):
-            for (patId, value) in rows:
-                if patId == patientId:
-                    return value
-            return 0
-
         print("nb map's: " + str(len(mapRows)))
         print("nb dopamines: " + str(len(dopamineRows)))
         print("nb dobutamines: " + str(len(dobutamineRows)))
@@ -191,86 +191,109 @@ class PostgreSqlDataHandler(DataHandler):
                 get_value_or_0(norepinephrineRows, patId),
             )) for patId in allPatientIds]
 
-    def get_liver_data(self, cur):
+    def get_liver_scores(self, cur):
         '''
-        function querying the dB for liver entries (bilirubin).
-        Returns: array of patient-ids & SOFA scores based on bilirubin
+        Function calculating the liver components of SOFA scores.
+        Returns: array of tuples like (patientId, sofaScore)
         '''
-        sql = """SELECT patientunitstayid,
-        bilirubin as liver
-        FROM eicu_crd.apacheapsvar;
-        """
+        def to_sofa(concentration):
+            if concentration > 12: return 4
+            if concentration > 6: return 3
+            if concentration > 2: return 2
+            if concentration > 1.2: return 1
+            return 0
+        sql = """SELECT patientunitstayid, MAX(bilirubin)
+                 FROM eicu_crd.apacheapsvar
+                 WHERE bilirubin > 0
+                 GROUP BY patientunitstayid;"""
         cur.execute(sql)
-        data = [{'sourceDatabase': self.database, 'patientid': patient, 'liver': liver}
-                for (patient, liver) in cur.fetchall()]
-        liver_data = data  # TODO calculate array of SOFA scores for liver entries
-        return liver_data
+        return [(patientId, to_sofa(bilirubin)) for (patientId, bilirubin) in cur.fetchall()]
 
-    def get_coagulation_data(self, cur):
+    def get_coagulation_scores(self, cur):
         '''
-        function querying the dB for Coagulation entries (platelets).
-        Returns: array of patient-ids & SOFA scores based on platelets
+        Function calculating the coagulation components of SOFA scores.
+        Returns: array of tuples like (patientId, sofaScore)
         '''
-        sql = """SELECT patientunitstayid,
-        labname ,
-        labresult / 1000
-        FROM eicu_crd.lab
-        WHERE labname like '%platelet%';
-        """
+        def to_sofa(count):
+            if count < 20: return 4
+            if count < 50: return 3
+            if count < 100: return 2
+            if count < 150: return 1
+            return 0
+        sql = """SELECT patientunitstayid, MIN(labresult)
+                 FROM eicu_crd.lab
+                 WHERE labname = 'platelet x 1000'
+                   AND labresult > 0
+                 GROUP BY patientunitstayid;"""
         cur.execute(sql)
-        data = [{'sourceDatabase': self.database, 'patientid': patient, 'labname': lab_name, 'labresult': lab_result}
-                for (patient, lab_name, lab_result) in cur.fetchall()]
-        # TODO calculate array of SOFA scores for coagulation entries, do we need/want labname?
-        coagulation_data = data
-        return coagulation_data
+        return [(patientId, to_sofa(count)) for (patientId, count) in cur.fetchall()]
 
-    def get_kidneys_data(self, cur):
+    def get_kidneys_scores(self, cur):
         '''
-        function querying the dB for kidney entries (creatinine).
-        Returns: array of patient-ids & SOFA scores based on creatinine
+        Function calculating the kidney components of SOFA scores.
+        Returns: array of tuples like (patientId, sofaScore)
         '''
-        sql = """SELECT patientunitstayid,
-            creatinine
-            FROM eicu_crd.apacheapsvar;
-        """
+        def to_sofa(count):
+            if count > 5: return 4
+            if count > 3.5: return 3
+            if count > 2: return 2
+            if count > 1.2: return 1
+            return 0
+        sql = """SELECT patientunitstayid, MAX(creatinine)
+                 FROM eicu_crd.apacheapsvar
+                 WHERE creatinine > 0
+                 GROUP BY patientunitstayid;"""
         cur.execute(sql)
-        data = [{'sourceDatabase': self.database, 'patientid': patient, 'creatinine': creatinine}
-                for (patient, creatinine) in cur.fetchall()]
-        # TODO calculate array of SOFA scores for coagulation entries, do we need/want labname?
-        kidney_data = data
-        return kidney_data
+        return [(patientId, to_sofa(count)) for (patientId, count) in cur.fetchall()]
 
-    def calc_sofa(self, *args):
+    def calc_patient_scores(self, *args):
         '''
-        in calc_sofa function we calculate the sofa score for each correspond patient id
-        we return the mean, std_dev & length of the sofa score 
+        Merges the component scores in args (assumed to be arrays of tuples like (patientId, score)). Scores missing
+        from components for patients are assumed 0: parameters indicating higher values would probably have
+        been measured for clinical purposes, so missing parameters and thus missing scores usually mean nothing extraordinary
+        is reported and thus 0 is a good assumed value.
+        Returns the average and standard deviation. 
         '''
-        # TODO
-        print(args)
+        allPatientIds = []
+        for componentscores in args:
+            for (patId, _) in componentscores:
+                if not patId in allPatientIds:
+                    allPatientIds.append(patId)
+
+        patientScores = []
+        for patId in allPatientIds:
+            patScore = 0
+            for componentscores in args:
+                patScore += get_value_or_0(componentscores, patId)
+            patientScores.append(patScore)
+
+        return patientScores
 
     def get_data(self):
         """
         Executes query and calculates the sofa score based on it.
 
-
-        :return: the mean + stddev of the sofa score
-        :rtype: `tuple`
+        :return: A tuple containing the database, the average score and the standard deviation of the scores (train data) and None (test data).
         """
         conn = self.connect()
 
         cur = conn.cursor()
+
         # TODO are we allowed (depends on dB) to query in parallel?
         resp_scores = self.get_respiratory_scores(cur)
         ns_scores = self.get_nervous_system_scores(cur)
         cs_scores = self.get_cardiovascular_system_scores(conn)
-        #liver_data = self.get_liver_data(cur)
-        #coag_data = self.get_coagulation_data(cur)
-        #kidney_data = self.get_kidneys_data(cur)
-        #data = self.calc_sofa(resp_data, ns_data, cs_data,
-        #                      liver_data, coag_data, kidney_data)
+        liver_scores = self.get_liver_scores(cur)
+        coag_scores = self.get_coagulation_scores(cur)
+        kidney_scores = self.get_kidneys_scores(cur)
+
         conn.close()
 
-        return cs_data, None
+        patientScores = self.calc_patient_scores(resp_scores, ns_scores, cs_scores, liver_scores, coag_scores, kidney_scores)
+        
+        #np.savetxt("patient_scores.csv", patientScores, delimiter=",")
+
+        return (self.database, np.average(patientScores), np.std(patientScores)), None
 
     def save_data(self, statement: str, rows):
         """Inserts the given rows (tuples) of data with the given INSERT statement.
