@@ -1,11 +1,13 @@
 aggregator:
   #ip: 127.0.0.1
+  #ip: host.docker.internal
   ip: 172.19.0.4
   port: 5000
 connection:
   info:
     #ip: 127.0.0.1
-    ip: 172.19.0.9
+    ip: 0.0.0.0
+    #ip: 172.19.0.9
     port: 8085
     tls_config:
       enable: false
