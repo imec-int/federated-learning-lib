@@ -29,7 +29,7 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      workingDirectory: '$(Build.SourcesDirectory)'
+      buildContext: '$(Build.SourcesDirectory)'
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
