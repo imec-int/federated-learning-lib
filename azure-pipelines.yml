@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'd3200f3f-cda2-41ec-bd26-522cbaf97948'
+  dockerRegistryServiceConnection: '5ddd3eb3-5b0c-412c-94c9-d88a930d9ea2'
   imageRepository: 'federatedlearninglib'
   containerRegistry: 'publichealth.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/examples/PHR/party/Dockerfile'
