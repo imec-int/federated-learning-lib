@@ -3,7 +3,10 @@ from sqlalchemy import create_engine
 import pandas as pd
 from dotenv import load_dotenv
 import dotenv
-from sql_requests import *
+from sql_requests.sql_requests import *
+# import sqlite3
+# from sqlite3 import OperationalError
+from pathlib import Path
 '''
 In this file we'll create all hooks to extract the necessary AKI model parameters from the connected database
 '''
@@ -94,6 +97,8 @@ class PostgreSqlDataHandler():
             print(df.head())
 
 
+
+
 if __name__ == "__main__":
     data_config = {
         "host": "edit-ph-eicu.postgres.database.azure.com",
@@ -105,6 +110,8 @@ if __name__ == "__main__":
 
     # psql.test_postgres()
     cur, engine = psql.open_connection()
-    urine_output(cur)
-    # kidigo_stages(cur)
+    sql_path = Path(Path.cwd() / './examples/AKI/sql_requests/')
+    sqlr = sql_requests(sqlpath=sql_path, connection=psql.connect(), cursor=cur)
+    count_icu = sqlr.count_icustays()
 
+    print("end")

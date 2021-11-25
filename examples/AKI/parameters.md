@@ -4,6 +4,11 @@ as it is unclear to me right now what the correct AKI parameters are, which are 
 
 It seems that Exascience is using the [Kdigo Classification](https://kdigo.org)
 
+I'm not sure yet if we have all data for enough participants and or how ExaScience worked with missing data. #TODO check with ExaScience
+
+Important, the sql requests are from postgresSQL  
+
+
 | AKI parameter            | category                 | MIMIC III name                              | MIMIC III location                 | eICU name  | eICU location | unit preferred |
 | ------------------------ | ------------------------ | ------------------------------------------- | ---------------------------------- | ---------- | ------------- | -------------- |
 | AKI                      | --OUTPUT--               |                                             |                                    |            |               |                |
@@ -60,7 +65,7 @@ It seems that Exascience is using the [Kdigo Classification](https://kdigo.org)
 | BICARBONATE_MAX          |                          | LABEVENTS                                   |                                    |            |               |
 | BILIRUBIN_MIN            |                          | LABEVENTS                                   |                                    |            |               |
 | BILIRUBIN_MAX            |                          | LABEVENTS                                   |                                    |            |               |
-| BUN_MIN                  |                          | LABEVENTS(blood urea nitrogen)              |                                    |            |               |                |
+| BUN_MIN                  |                          | LABEVENTS (blood urea nitrogen)              |                                    |            |               |                |
 | BUN_MAX                  |                          | LABEVENTS                                   |                                    |            |               |                |
 | CHLORIDE_MIN             |                          | LABEVENTS                                   |                                    |            |               |
 | CHLORIDE_MAX             |                          | LABEVENTS                                   |                                    |            |               |

@@ -12,7 +12,7 @@ The AKI predictor should predict the Stage in which a person finds him/herselves
 
 ## approach
 
-We'll be using the eICU database, which is a larger dataset. 
+We'll be using the eICU database, which is a larger dataset.
 
 First step is to have the necessary data captured from the entire eICU dB, train a model and compare it with the results gathered from the MIMIC-III approach. (the central approach)
 
@@ -23,6 +23,8 @@ Then we'll see for using the same approach, yet have the different hospitals in 
 ### Query the eICU dB
 
 Save the responses in a dataframe.
+
+[interesting link for data querying](https://github.com/MIT-LCP/eicu-code)
 
 ### preprocessing of data
 
