@@ -55,6 +55,17 @@ config_dict = {
 }
 
 if __name__ == '__main__':
+    """Entry point for the application. Configuration is done using environment variables (.env file is automatically loaded):
+    - AGGREGATOR_ADDR: The address of the aggregator to register with, default 127.0.0.1 .
+    - AGGREGATOR_PORT: The port to connect to the aggregator, default 5000 .
+    - PARTY_ADDR:      The address to bind on/listen to, default 0.0.0.0 .
+    - PARTY_PORT:      The port to bind on/listen to, default 8085 .
+    - HOSP_ID:         The id of the hospital to simulate, required.
+    - CASE:            The case to simulate, e.g. "sofa", required.
+    - DB_USER:         The username to connect to the database with, required.
+    - DB_PASSWORD:     The password to connect to the database with, required.
+    """
+    
     p = Party(config_dict=config_dict)
 
     p.start()

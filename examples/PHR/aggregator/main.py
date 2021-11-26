@@ -58,6 +58,14 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 if __name__ == '__main__':
+    """Entry point for the application. Configuration is done using environment variables (.env file is automatically loaded):
+    - AGGREGATOR_ADDR: The address to bind on/listen to, default 0.0.0.0 .
+    - AGGREGATOR_PORT: The port to bind on/listen to, default 5000 .
+    - CASE:            The case to simulate, e.g. "sofa", required.
+    - DB_USER:         The username to connect to the database with, required.
+    - DB_PASSWORD:     The password to connect to the database with, required.
+    """
+    
     agg = Aggregator(config_dict=config_dict)
 
     agg.start()
