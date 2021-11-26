@@ -1,5 +1,4 @@
-from dotenv import load_dotenv
-import dotenv
+import os
 import psycopg2
 import logging
 
@@ -13,9 +12,6 @@ from ibmfl.data.data_handler import DataHandler
 from ibmfl.util.datasets import load_mnist
 
 logger = logging.getLogger(__name__)
-
-# TODO place at entry point of application
-load_dotenv()
 
 def get_value_or_0(rows, patientId):
     for (patId, value) in rows:
@@ -34,7 +30,6 @@ class PostgreSqlDataHandler(DataHandler):
         self.host = data_config['host']
         self.port = data_config['port']
         self.database = data_config['database']
-        self.envPath = data_config['envPath']
 
     def get_respiratory_scores(self, cur):
         '''
@@ -312,11 +307,8 @@ class PostgreSqlDataHandler(DataHandler):
         conn.close()
 
     def connect(self):
-        dbUser = dotenv.get_key(self.envPath, "DB_USER")
-        dbPw = dotenv.get_key(self.envPath, "DB_PASSWORD")
-
         return psycopg2.connect(host=self.host, port=self.port, database=self.database,
-                                user=dbUser, password=dbPw,
+                                user=os.environ['DB_USER'], password=os.environ['DB_PASSWORD'],
                                 sslmode='require')
     
     def run_query(self,conn,sql:str):

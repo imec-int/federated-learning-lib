@@ -10,10 +10,10 @@ RUN pip3 install --upgrade setuptools
 RUN pip3 install virtualenv
 RUN virtualenv venv
 RUN source venv/bin/activate
-RUN pip3 install -q -r requirements.txt
-RUN pip3 install psycopg2
+
+RUN pip3 install -q -r requirements-phr.txt
 RUN pip3 install federated-learning-lib/federated_learning_lib-*-py3-none-any.whl
 
 EXPOSE 8085
 
-CMD ["python3", "-m", "ibmfl.party.party", "examples/configs/PHR/script/sofa_config_hospital73.yml"]
+CMD python3 ./examples/PHR/party/main.py
