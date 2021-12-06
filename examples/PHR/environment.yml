@@ -1,0 +1,9 @@
+name: ibm-federated-learning-phr
+dependencies:
+  - python=3.6
+  - psycopg2=2.9
+  - pip
+  - python-dotenv
+  - pip:
+    - https://github.com/IBM/federated-learning-lib/raw/main/federated-learning-lib/federated_learning_lib-1.0.6-py3-none-any.whl
+    - http://github.com/IBM/pycloudmessenger/archive/v0.7.1.tar.gz

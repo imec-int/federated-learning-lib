@@ -1,5 +1,9 @@
 # <d></d> <img src="docs/assets/images/ibmfl_logo.png?raw=true"> IBM Federated Learning  
 
+| :exclamation: INFORMATION                                                                                                                                                                                                       |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| If you are looking for information on the ICU Fair use cases (SOFA score, AKI, etc.), navigate to the examples folder and read the relevant subfolders' README. Note that the SOFA score use case is located under examples/PHR |
+
 ## What is it?
 IBM federated learning is a Python framework for federated learning (FL) in an enterprise environment. FL is a distributed machine learning process, in which each participant node (or party) retains data locally and interacts with the other participants via a learning protocol. The main drivers behind FL are privacy and confidentiality concerns, regulatory compliance requirements, as well as the praciticality of moving data to one central learning location.
 

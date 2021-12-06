@@ -1,0 +1,37 @@
+aggregator:
+  ip: 127.0.0.1
+#  ip: host.docker.internal
+#  ip: 172.19.0.4
+  port: 5000
+connection:
+  info:
+    #ip: 127.0.0.1
+    ip: 0.0.0.0
+    #ip: 172.19.0.9
+    port: 8085
+    tls_config:
+      enable: false
+  name: FlaskConnection
+  path: ibmfl.connection.flask_connection
+  sync: false
+data:
+  info:
+    host: edit-ph-eicu.postgres.database.azure.com
+    port: 5432
+    database: hospital_73
+    envPath: ./examples/PHR/party/.env
+  name: PostgreSqlDataHandler
+  path: examples.PHR.data.sofa_postgresql_data_handler
+local_training:
+  name: LocalTrainingHandler
+  path: examples.PHR.party.training.local_training_handler
+model:
+  name: NoopFLModel
+  path: examples.PHR.model.noop_fl_model
+  spec:
+    model_name: NoopFLModel
+privacy:
+  metrics: true
+protocol_handler:
+  name: PartyProtocolHandler
+  path: ibmfl.party.party_protocol_handler

@@ -1,6 +1,6 @@
 connection:
   info:
-    ip: 172.19.0.4
+    ip: 127.0.0.1
     port: 5000
     tls_config:
       enable: false

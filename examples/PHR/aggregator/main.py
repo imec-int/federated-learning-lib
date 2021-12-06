@@ -22,18 +22,21 @@ config_dict = {
         "path": "ibmfl.connection.flask_connection",
         "sync": False,
     },
-    "data": {
-        "info": {
-            "host": "central-dbs.postgres.database.azure.com",
-            "port": "5432",
-            "database": "aggregator"
-        },
-        "name": "PostgreSqlDataHandler",
-        "path": "examples.PHR.data."+os.environ['CASE']+"_postgresql_data_handler",
-    },
     "fusion": {
         "name": "ConcatFusionHandler",
-        "path": "examples.PHR.aggregator.fusion."+os.environ['CASE']+"_concat_fusion_handler",
+        "path": os.getenv('FUSION_HANDLER_PATH',
+                          "examples.PHR.aggregator.fusion." + os.environ['CASE'] + "_concat_fusion_handler"),
+        "info": {
+            "database": {
+                "host": os.getenv('DB_HOST', "central-dbs.postgres.database.azure.com"),
+                "port": os.getenv('DB_PORT', "5432"),
+                "database": os.getenv('DB_DATABASE_NAME', "postgres"),
+                "user": os.getenv('DB_USER', "postgres"),
+                "password": os.getenv('DB_PASSWORD', "postgres"),
+                'sslmode': os.getenv('DB_SSL_MODE', 'require')
+            }
+        }
+
     },
     "hyperparams": {
         "global": {
@@ -65,9 +68,8 @@ if __name__ == '__main__':
     - DB_USER:         The username to connect to the database with, required.
     - DB_PASSWORD:     The password to connect to the database with, required.
     """
-    
-    agg = Aggregator(config_dict=config_dict)
 
+    agg = Aggregator(config_dict=config_dict)
     agg.start()
 
     # Indefinite loop to accept user commands to execute
