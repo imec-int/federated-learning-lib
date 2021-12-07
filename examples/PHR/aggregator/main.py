@@ -9,19 +9,41 @@ from ibmfl.aggregator.states import States
 
 load_dotenv()
 
-config_dict = {
-    "connection": {
-        "info": {
-            "ip": os.getenv('AGGREGATOR_ADDR', '0.0.0.0'),
-            "port": os.getenv('AGGREGATOR_PORT', 5000),
-            "tls_config": {
-                "enable": False,
-            }
+rabbit_mq_connection = {
+    "info": {
+        'credentials': {
+            "broker_host": os.getenv('RABBITMQ_HOST', '0.0.0.0'),
+            "broker_vhost": "/",
+            "broker_port": os.getenv('RABBITMQ_PORT', 5672),
         },
-        "name": "FlaskConnection",
-        "path": "ibmfl.connection.flask_connection",
-        "sync": False,
+        'user': 'guest',
+        'password': 'guest',
+        'role': 'aggregator',
+        "task_name": 'sample',
+        "tls_config": {
+            "enable": False,
+        }
     },
+    "name": "RabbitMQConnection",
+    "path": "ibmfl.connection.rabbitmq_connection",
+    "sync": True,
+}
+
+flask_connection = {
+    "info": {
+        "ip": os.getenv('AGGREGATOR_ADDR', '0.0.0.0'),
+        "port": os.getenv('AGGREGATOR_PORT', 5000),
+        "tls_config": {
+            "enable": False,
+        }
+    },
+    "name": "FlaskConnection",
+    "path": "ibmfl.connection.flask_connection",
+    "sync": False,
+}
+
+config_dict = {
+    "connection": flask_connection,
     "fusion": {
         "name": "ConcatFusionHandler",
         "path": os.getenv('FUSION_HANDLER_PATH',

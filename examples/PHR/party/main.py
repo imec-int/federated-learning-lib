@@ -11,14 +11,14 @@ load_dotenv()
 config_dict = {
     "aggregator": {
         "ip": os.getenv('AGGREGATOR_ADDR', '127.0.0.1'),
-        "port": os.getenv('AGGREGATOR_PORT', 5000), 
+        "port": os.getenv('AGGREGATOR_PORT', 5000),
     },
     "connection": {
         "info": {
             "ip": os.getenv('PARTY_ADDR', '0.0.0.0'),
             "port": os.getenv('PARTY_PORT', 8085),
             "tls_config": {
-                "enable": False,
+                "enable": bool(os.getenv('PARTY_TLS_ENABLED', False)),
             }
         },
         "name": "FlaskConnection",
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     - DB_USER:         The username to connect to the database with, required.
     - DB_PASSWORD:     The password to connect to the database with, required.
     """
-    
+
     p = Party(config_dict=config_dict)
 
     p.start()
