@@ -69,7 +69,10 @@ if __name__ == '__main__':
     p = Party(config_dict=config_dict)
 
     p.start()
+    p.proto_handler.connection.source_info['ip'] = os.getenv('PARTY_EXTERNAL_IP', os.getenv('PARTY_ADDR', '0.0.0.0'))
     p.register_party()
+    # Awful hack :( See https://github.com/IBM/federated-learning-lib/issues/53#issuecomment-886659388)
+    print("External IP is ", os.getenv('PARTY_EXTERNAL_IP', os.getenv('PARTY_ADDR', '0.0.0.0')))
 
     # Indefinite loop to accept user commands to execute
     while 1:
