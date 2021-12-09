@@ -4,3 +4,6 @@
 **/__pycache__
 **/*.log
 .volumes/
+**/*.env.*
+!**/*.env.template
+.idea/
